@@ -63,15 +63,15 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     const date = exerciseDate ? new Date(exerciseDate) : new Date();
 
     const user = await User.findById(userId);
-    const newExercise = new Exercise({ userId, description, duration, date });
-    await newExercise.save();
+    const exercise = new Exercise({ userId, description, duration, date });
+    await exercise.save();
 
     const responseJson = {
-      username: user.username,
-      description: newExercise.description,
-      duration: newExercise.duration,
-      date: newExercise.date.toDateString(),
       _id: user._id,
+      username: user.username,
+      description: exercise.description,
+      duration: exercise.duration,
+      date: new Date(exercise.date).toDateString(),
     };
     console.log(responseJson);
 
@@ -102,7 +102,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     }
 
     const user = await User.findById(userId);
-    const exercises = await Exercise.find(query).limit(parseInt(limit));
+    const exercises = await Exercise.find(query).limit(+limit ?? 500);
     const count = exercises.length;
 
     const responseJson = {
