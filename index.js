@@ -29,7 +29,6 @@ db.once("open", () => {
 // ===Import Schema and Model===
 const User = require("./models/user");
 const Exercise = require("./models/exercise");
-const exercise = require("./models/exercise");
 
 // ===Routes===
 app.get("/", (req, res) => {
